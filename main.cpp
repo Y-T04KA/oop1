@@ -8,32 +8,12 @@ class matrix {
 public:
     void make(int s) {//метод когда матрицу вводим на месте
         size = s;
+        m.clear();//очищаем матрицу, если у нас была одна 
         for (size_t i = 0; i < s; ++i)
         {
             Row row(s);
-
-            for (size_t j = 0; j < s; ++j)
-            {
-                std::cin >> row[j];
-            }
-
-            m.push_back(row); // push each row after you fill it
-        }
-        isUsed = true;
-    };
-
-    void make(int s, bool based) {//метод когда у нас уже есть значения, should start with make(3,true)
-        size_t x = 0; size = s;
-        for (size_t i = 0; i < s; ++i)
-        {
-            Row row(s);
-
-            for (size_t j = 0; j < s; ++j,++x)
-            {
-                row[j]=def[x];
-            }
-
-            m.push_back(row); // push each row after you fill it
+            for (size_t j = 0; j < s; ++j) std::cin >> row[j];
+            m.push_back(row); 
         }
         isUsed = true;
     };
@@ -42,10 +22,7 @@ public:
         check();
         for (size_t i = 0; i < size; ++i)
         {
-            for (size_t j = 0; j < size; ++j)
-            {
-                std::cout << m[i][j] << " ";
-            }
+            for (size_t j = 0; j < size; ++j) std::cout << m[i][j] << " ";
             std::cout << std::endl;
         }
         return;
@@ -53,12 +30,10 @@ public:
 
     void findDet() {
         check();
-        cc = m;//copy matrix for safety
+        cc = m;//на всякий случай, работаем с копией матрицы
         for (int i = 0; i < size; i++) {
             int k = i;
-            for (int j = i + 1; j < size; j++) {
-                if (abs(cc[j][i]) > abs(cc[k][i])) k = j;
-            }
+            for (int j = i + 1; j < size; j++) if (abs(cc[j][i]) > abs(cc[k][i])) k = j;
             if (abs(cc[k][i]) < eps) {
                 det = 0;
                 break;
@@ -71,26 +46,44 @@ public:
                 if ((j != i) && abs(cc[j][i] > eps))
                     for (k = i + 1; k < size; k++)
                         cc[j][k] -= cc[i][k] * cc[j][i];
-            
         }
         std::cout << det << std::endl;
     };
 
-    void transphobia() {
+    void transpon() {
         check();
-        std::cout << "matrix above is first check\n";
         cc = m;
         number cache;
         for (int i = 0; i<size; i++)
-            for (int j = 0; j < size; j++) {
+            for (int j = i; j < size; j++) {
                 cache = m[i][j];
                 m[i][j] = m[j][i];
                 m[j][i] = cache;
-                std::cout << "puff\n";
             }
-        std::cout << "before show()\n";
-        show();
-        //m = cc; 
+       show();
+       m = cc; 
+    }
+
+    void ranking() {
+        check();
+        cc = m;
+        std::vector<bool> line_used(size);
+        for (int i = 0; i < size; i++) {
+            int j;
+            for (j=0; j<size;j++) 
+                if (!line_used[j]&&abs(cc[j][i])>eps) break;
+            if (j == size) --rank;
+            else
+            {
+                line_used[j] = true;
+                for (int p = i + 1; p < size; ++p) cc[j][p] /= cc[j][i];
+                for (int k = 0; k < size; ++k)
+                    if (k != j && abs(cc[k][i]) > eps)
+                        for (int p = i + 1; p < size; ++p)
+                            cc[k][p] -= cc[j][p] * cc[k][i];
+            }
+        }
+        std::cout << "ранг - " << rank << std::endl;
     }
         
 private:
@@ -98,27 +91,46 @@ private:
     typedef std::vector<std::vector<number>> Matrix;
     typedef std::vector<number> Row;
     Matrix m,cc;
-    int size=3;
-    const number eps = 0.01;
+    int size=3,rank=size;
+    const number eps = 0.000001;
     bool isUsed = false;//показывает иницилизирована ли матрица, если нет возьмем дефолтную
     void check() {
         if (!isUsed) {
             make(3, true);
-            std::cout << "No matrix found, using default\n";
+            std::cout << "Не введена матрица, используется матрица по умолчанию\n";
         }
     };
     number def[9] = { 1,2,3,4,1,6,7,8,1 };
-    
+    void make(int s, bool based) {//метод когда у нас уже есть значения, should start with make(3,true)
+        size_t x = 0; size = s;
+        for (size_t i = 0; i < s; ++i)
+        {
+            Row row(s);
+            for (size_t j = 0; j < s; ++j, ++x) row[j] = def[x];
+            m.push_back(row); 
+        }
+        isUsed = true;
+    };
 };
 
 class App {
 public:
-    void wellcum() {
-        std::cout << "Список команд:\n1 to enter matrix\n2 to find deter of matrix\n3 to form transpon matrix\n4 to find rank\n5 to show current object of matrix\n6 to exit\n";
+    void welcome() {
+        std::cout << "Список команд:\n1 ввести матрицу\n2 найти определитель\n3 транспонировать\n4 найти ранг\n5 текущий объект\n6 выход\n";
         std::cin >> state;
         move(state);
     }
-    
+private:
+    int state=0;
+    void enter() {
+        std::cout << "Введите размер новой матрицы:\n";
+        int size;
+        std::cin >> size;
+        std::cout << "Введите числа через Enter\n";
+        instance.make(size);
+        state = 0;
+        move(state);
+    }
     void deter() {
         std::cout << "Определитель матрицы - ";
         instance.findDet();
@@ -127,38 +139,19 @@ public:
     }
     void trans() {
         std::cout << "Транспонирование матрицы:\n";
-        instance.transphobia();
+        instance.transpon();
         state = 0;
         move(state);
     }
-
     void rank() {
-        std::cout << "will count rank here\n";
-        state = 0;
-        move(state);
-    }
-
-    void current(){
-        std::cout<< "something current\n";
-        instance.show();
-        state = 0;
-        move(state);
-    }
-    
-private:
-    int state=0,size=3;
-    void enter() {
-        std::cout << "Введите размер новой матрицы:\n";
-        std::cin >> size;
-        std::cout << "Введите числа через Enter\n";
-        instance.make(size);
+        instance.ranking();
         state = 0;
         move(state);
     }
     void move(int state) {
         switch (state)
         {
-        case 0:return wellcum(); break;
+        case 0:return welcome(); break;
         case 1:return enter(); break;
         case 2:return deter(); break;
         case 3:return trans(); break;
@@ -168,15 +161,20 @@ private:
             break;
         }
     }
+    void current() {
+        std::cout << "Текущий объект матрицы:\n";
+        instance.show();
+        state = 0;
+        move(state);
+    }
     matrix instance;
 };
 
 int main(int argc, char *argv[])
 {
-    //QCoreApplication a(argc, argv);
-    std::cout << "ООП 1\n";
+    std::cout << "ООП ПР1\n";
+    std::cout << "Роженко К.Е., Матвеев С.А., группа 0375\n";
     App l;
-    l.wellcum();
-    //return a.exec();
+    l.welcome();
     return 0;
 }
