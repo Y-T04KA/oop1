@@ -1,4 +1,6 @@
 #pragma once
+#include <complex>
 
-typedef double number;
+typedef std::complex<double> number;
+//typedef double number;
 

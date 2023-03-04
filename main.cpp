@@ -34,16 +34,12 @@ public:
         for (int i = 0; i < size; i++) {
             int k = i;
             for (int j = i + 1; j < size; j++) if (abs(cc[j][i]) > abs(cc[k][i])) k = j;
-            if (abs(cc[k][i]) < eps) {
-                det = 0;
-                break;
-            }
             cc[i].swap(cc[k]);//тут должны меняться строки матрицы
             if (i != k) det *= -1;
             det *= cc[i][i];
             for (int j = i + 1; j < size; j++) cc[i][j] /= cc[i][i];
             for (int j = 0; j < size; j++)
-                if ((j != i) && abs(cc[j][i] > eps))
+                if ((j != i))
                     for (k = i + 1; k < size; k++)
                         cc[j][k] -= cc[i][k] * cc[j][i];
         }
@@ -71,14 +67,14 @@ public:
         for (int i = 0; i < size; i++) {
             int j;
             for (j=0; j<size;j++) 
-                if (!line_used[j]&&abs(cc[j][i])>eps) break;
+                if (!line_used[j]) break;
             if (j == size) --rank;
             else
             {
                 line_used[j] = true;
                 for (int p = i + 1; p < size; ++p) cc[j][p] /= cc[j][i];
                 for (int k = 0; k < size; ++k)
-                    if (k != j && abs(cc[k][i]) > eps)
+                    if (k != j)
                         for (int p = i + 1; p < size; ++p)
                             cc[k][p] -= cc[j][p] * cc[k][i];
             }
@@ -92,7 +88,6 @@ private:
     typedef std::vector<number> Row;
     Matrix m,cc;
     int size=3,rank=size;
-    const number eps = 0.000001;
     bool isUsed = false;//показывает иницилизирована ли матрица, если нет возьмем дефолтную
     void check() {
         if (!isUsed) {
