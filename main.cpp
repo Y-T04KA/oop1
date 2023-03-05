@@ -12,10 +12,6 @@ public:
         {
             Row row(s);
             for (size_t j = 0; j < s; ++j) {
-                //number huh;
-                //cin >> huh;
-                //row[j] = huh;
-                //std::cout << "received " << huh << std::endl;
                 cin >> row[j];
             }
             m.push_back(row); 

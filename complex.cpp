@@ -1,45 +1,45 @@
 #include "Tcomplex.h"
 #include <iostream>
 
-double abs(complex c) {
+double abs(TComplex c) {
 	double i = std::sqrt(c.re * c.re + c.im * c.im);
 	return i;
 }
 
-complex::complex() {
+TComplex::TComplex() {
 
 }
 
-complex::complex(const int& r) {
+TComplex::TComplex(const int& r) {
 	re = r;
 	im = 0;
 }
 
-complex complex::operator*(complex c) {
-	complex t;
+TComplex TComplex::operator*(TComplex c) {
+	TComplex t;
 	t.re = re*c.re - im*c.im;
 	t.im = re*c.im + im*c.re;
 	return t;
 }
 
-void complex::operator*=(complex c) {
-	complex t;
+void TComplex::operator*=(TComplex c) {
+	TComplex t;
 	t.re = re * c.re - im * c.im;
 	t.im = re * c.im + im * c.re;
 	re = t.re;
 	im = t.im;
 }
 
-void complex::operator/=(complex c) {
-	complex t;
+void TComplex::operator/=(TComplex c) {
+	TComplex t;
 	t.re = (re * c.re + im * c.im) / (c.re * c.re + c.im * c.im);
 	t.im = (c.re * im - re * c.im) / (c.re * c.re + c.im * c.im);
 	re = t.re;
 	im = t.im;
 }
 
-void complex::operator-=(complex c) {
-	complex t;
+void TComplex::operator-=(TComplex c) {
+	TComplex t;
 	t.re = re - c.re;
 	t.im = im - c.im;
 	re = t.re;
@@ -51,14 +51,12 @@ void complex::operator-=(complex c) {
 //	return i;
 //}
 
-ostream& operator<<(ostream& os, complex c) {
+ostream& operator<<(ostream& os, TComplex c) {
 	os << c.re << "+" << c.im << "i";
 	return os;
 };
 
-istream& operator>>(istream& is, complex& c) {
-	//is.clear();
+istream& operator>>(istream& is, TComplex& c) {
 	is >> c.re >> c.im;
-	//cout << "in istream - " << c.re << c.im << endl;
 	return is;
 };

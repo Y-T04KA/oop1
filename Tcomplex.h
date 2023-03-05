@@ -3,17 +3,17 @@
 using namespace std;
 
 
-class complex {
+class TComplex {
 public:
     double re, im;
-    complex();
-    complex(const int&);
-    complex operator* (complex);
-    void operator*= (complex);
-    void operator/= (complex);
-    void operator-= (complex);
-    friend ostream& operator<<(ostream&, complex);
-    friend istream& operator>>(istream&, complex&);
+    TComplex();
+    TComplex(const int&);
+    TComplex operator* (TComplex);
+    void operator*= (TComplex);
+    void operator/= (TComplex);
+    void operator-= (TComplex);
+    friend ostream& operator<<(ostream&, TComplex);
+    friend istream& operator>>(istream&, TComplex&);
 };
 
-double abs(complex);
+double abs(TComplex);
