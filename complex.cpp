@@ -56,7 +56,9 @@ ostream& operator<<(ostream& os, complex c) {
 	return os;
 };
 
-istream& operator>>(istream& is, complex c) {
+istream& operator>>(istream& is, complex& c) {
+	//is.clear();
 	is >> c.re >> c.im;
+	//cout << "in istream - " << c.re << c.im << endl;
 	return is;
 };

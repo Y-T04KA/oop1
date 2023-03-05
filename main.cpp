@@ -1,7 +1,6 @@
 #include <QtCore/QCoreApplication>
 #include <iostream>
 #include <number.h>
-#include <Tcomplex.h>
 
 
 class matrix {
@@ -12,7 +11,13 @@ public:
         for (size_t i = 0; i < s; ++i)
         {
             Row row(s);
-            for (size_t j = 0; j < s; ++j) std::cin >> row[j];
+            for (size_t j = 0; j < s; ++j) {
+                //number huh;
+                //cin >> huh;
+                //row[j] = huh;
+                //std::cout << "received " << huh << std::endl;
+                cin >> row[j];
+            }
             m.push_back(row); 
         }
         isUsed = true;

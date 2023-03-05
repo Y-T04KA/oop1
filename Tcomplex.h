@@ -12,9 +12,8 @@ public:
     void operator*= (complex);
     void operator/= (complex);
     void operator-= (complex);
-    //double abs();
     friend ostream& operator<<(ostream&, complex);
-    friend istream& operator>>(istream&, complex);
+    friend istream& operator>>(istream&, complex&);
 };
 
 double abs(complex);
