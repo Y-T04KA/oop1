@@ -42,7 +42,8 @@ void complex::operator-=(complex c) {
 }
 
 double complex::abs() {
-	return (std::sqrt(re*re+im*im));
+	double i = std::sqrt(re * re + im * im);
+	return i;
 }
 
 ostream& operator<<(ostream& os, complex c) {
