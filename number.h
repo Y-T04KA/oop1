@@ -1,6 +1,7 @@
 #pragma once
-#include <complex.h>
+#include <Tcomplex.h>
 
-typedef std::complex<double> number;
+//typedef std::complex<double> number;
+typedef complex number;
 //typedef double number;
 

@@ -33,7 +33,11 @@ public:
         cc = m;//на всякий случай, работаем с копией матрицы
         for (int i = 0; i < size; i++) {
             int k = i;
-            for (int j = i + 1; j < size; j++) if (abs(cc[j][i]) > abs(cc[k][i])) k = j;
+            for (int j = i + 1; j < size; j++) {
+                number a = cc[j][i], b = cc[k][i];
+                if (abs(a) > abs(b))
+                    k = j;
+            }
             cc[i].swap(cc[k]);//тут должны меняться строки матрицы
             if (i != k) det *= -1;
             det *= cc[i][i];

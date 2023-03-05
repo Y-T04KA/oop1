@@ -88,7 +88,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="complex.h" />
+    <ClInclude Include="Tcomplex.h" />
     <ClInclude Include="number.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
