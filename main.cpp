@@ -35,7 +35,7 @@ public:
             int k = i;
             for (int j = i + 1; j < size; j++) {
                 number a = cc[j][i], b = cc[k][i];
-                if (a.abs() > b.abs())
+                if (abs(a) > abs(b))
                     k = j;
             }
             cc[i].swap(cc[k]);//тут должны меняться строки матрицы

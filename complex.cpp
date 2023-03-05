@@ -1,6 +1,11 @@
 #include "Tcomplex.h"
 #include <iostream>
 
+double abs(complex c) {
+	double i = std::sqrt(c.re * c.re + c.im * c.im);
+	return i;
+}
+
 complex::complex() {
 
 }
@@ -41,10 +46,10 @@ void complex::operator-=(complex c) {
 	im = t.im;
 }
 
-double complex::abs() {
-	double i = std::sqrt(re * re + im * im);
-	return i;
-}
+//double complex::abs() {
+//	double i = std::sqrt(re * re + im * im);
+//	return i;
+//}
 
 ostream& operator<<(ostream& os, complex c) {
 	os << c.re << "+" << c.im << "i";
